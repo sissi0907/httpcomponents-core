@@ -1,0 +1,40 @@
+name: Reproduce Flaky Tests
+
+on: [push, pull_request]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '8'
+          
+      # - name: maven clean install 
+      #   run: mvn clean install -Dcheckstyle.skip -Drat.skip -U
+        
+      # - name: Compile Module
+      #   run: mvn test-compile -am -Dcheckstyle.skip -Drat.skip -U
+      - name: Check
+        uses: actions/checkout@v3
+        with:
+          ref: 5f297690dc231b390b25c0d51ffbe5b17d21d185
+  
+      - name: Test with Maven
+        run: | 
+              for i in {1..100}; do mvn test -Dtest=org.apache.http.impl.nio.reactor.TestDefaultIOReactors -Dsurefire.failIfNoSpecifiedTests=false -fae>>test_log_HTTPCORE-155.txt; done
+              echo "Maven tests completed." 
+      - name: Upload Test Log 
+        if: always() 
+        uses: actions/upload-artifact@v2 
+        with: 
+          name: test_log_HTTPCORE-155
+          path: test_log_HTTPCORE-155.txt
+
+      - name: Nondex
+        run: mvn edu.illinois:nondex-maven-plugin:2.1.7:nondex -Dtest=org.apache.http.impl.nio.reactor.TestDefaultIOReactors -Dsurefire.failIfNoSpecifiedTests=false -DnondexRuns=100
+     
