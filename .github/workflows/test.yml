@@ -22,19 +22,19 @@ jobs:
       - name: Check
         uses: actions/checkout@v3
         with:
-          ref: ec57be834eb4be793dfc9672b941a64856905642
+          ref: addafe1ced2a452525b43e6031dedb9a5b6c97fd
   
       - name: Test with Maven
         run: | 
-              for i in {1..100}; do mvn test -Dtest=org.apache.http.nio.protocol.TestAsyncNHttpHandlers -Dsurefire.failIfNoSpecifiedTests=false -fae>>test_log_HTTPCORE-243.txt; done
+              for i in {1..100}; do mvn test -Dtest=org.apache.http.impl.nio.reactor.TestAllImplReactor -Dsurefire.failIfNoSpecifiedTests=false -fae>>test_log_HTTPCORE-60.txt; done
               echo "Maven tests completed." 
       - name: Upload Test Log 
         if: always() 
         uses: actions/upload-artifact@v2 
         with: 
-          name: test_log_HTTPCORE-243
-          path: test_log_HTTPCORE-243.txt
+          name: test_log_HTTPCORE-60
+          path: test_log_HTTPCORE-60.txt
 
       - name: Nondex
-        run: mvn edu.illinois:nondex-maven-plugin:2.1.7:nondex -Dtest=org.apache.http.nio.protocol.TestAsyncNHttpHandlers -Dsurefire.failIfNoSpecifiedTests=false -DnondexRuns=100
+        run: mvn edu.illinois:nondex-maven-plugin:2.1.7:nondex -Dtest=org.apache.http.impl.nio.reactor.TestAllImplReactor -Dsurefire.failIfNoSpecifiedTests=false -DnondexRuns=100
      
