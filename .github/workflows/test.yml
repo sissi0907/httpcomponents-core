@@ -19,10 +19,10 @@ jobs:
         
       # - name: Compile Module
       #   run: mvn test-compile -am -Dcheckstyle.skip -Drat.skip -U
-      # - name: Check
-      #   uses: actions/checkout@v3
-      #   with:
-      #     ref: e1e6cf3dc3c144ea206fec2a10d870469b4bc081
+      - name: Check
+        uses: actions/checkout@v3
+        with:
+          ref: e1e6cf3dc3c144ea206fec2a10d870469b4bc081
   
       - name: Test with Maven
         run: | 
