@@ -26,7 +26,7 @@ jobs:
   
       - name: Test with Maven
         run: | 
-              for i in {1..100}; do echo "Running test iteration $i" mvn test -Dtest=org.apache.http.impl.nio.reactor.TestDefaultIOReactorsSSL -Dsurefire.failIfNoSpecifiedTests=false -fae>>test_log_HTTPCORE-193.txt || echo "Test iteration $i failed">>test_log_HTTPCORE-193.txt; done
+              for i in {1..100}; do mvn test -Dtest=org.apache.http.impl.nio.reactor.TestDefaultIOReactorsSSL -Dsurefire.failIfNoSpecifiedTests=false -fae>>test_log_HTTPCORE-193.txt || echo "Test iteration $i failed">>test_log_HTTPCORE-193.txt; done
               
       - name: Upload Test Log 
         if: always() 
@@ -35,6 +35,6 @@ jobs:
           name: test_log_HTTPCORE-193
           path: test_log_HTTPCORE-193.txt
 
-      - name: Nondex
-        run: mvn edu.illinois:nondex-maven-plugin:2.1.7:nondex -Dtest=org.apache.http.impl.nio.reactor.TestDefaultIOReactorsSSL -Dsurefire.failIfNoSpecifiedTests=false -DnondexRuns=100
+      # - name: Nondex
+      #   run: mvn edu.illinois:nondex-maven-plugin:2.1.7:nondex -Dtest=org.apache.http.impl.nio.reactor.TestDefaultIOReactorsSSL -Dsurefire.failIfNoSpecifiedTests=false -DnondexRuns=100
      
